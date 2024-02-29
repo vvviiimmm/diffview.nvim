@@ -46,6 +46,8 @@ GitAdapter.bootstrap = {
 
 GitAdapter.COMMIT_PRETTY_FMT = (
   "%H %P"      -- Commit hash followed by parent hashes
+  .. "%n%G?"   -- Signature date
+  .. "%n%GK"   -- Signature key
   .. "%n%an"   -- Author name
   .. "%n%at"   -- Author date: UNIX timestamp
   .. "%n%ai"   -- Author date: ISO (gives us timezone)
