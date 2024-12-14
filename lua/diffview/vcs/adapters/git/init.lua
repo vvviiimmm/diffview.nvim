@@ -46,8 +46,6 @@ GitAdapter.bootstrap = {
 
 GitAdapter.COMMIT_PRETTY_FMT = (
   "%H %P"      -- Commit hash followed by parent hashes
-  .. "%n%G?"   -- Signature date
-  .. "%n%GK"   -- Signature key
   .. "%n%an"   -- Author name
   .. "%n%at"   -- Author date: UNIX timestamp
   .. "%n%ai"   -- Author date: ISO (gives us timezone)
@@ -520,6 +518,8 @@ function GitAdapter:stream_fh_data(state)
   local data
 
   local function on_stdout(_, line)
+    -- log line 
+    logger:warn("LINE: %s", line)
     if line == "\0" then
       if data then
         local log_data = structure_fh_data(data)
@@ -573,6 +573,7 @@ function GitAdapter:stream_fh_data(state)
       "core.quotePath=false",
       "log",
       "--pretty=format:%x00%n" .. GitAdapter.COMMIT_PRETTY_FMT,
+      "--no-show-signatures",
       "--numstat",
       "--raw",
       state.prepared_log_opts.flags,
